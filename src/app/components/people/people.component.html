@@ -1,0 +1,30 @@
+<div *ngIf="(loadingPage1$ | async) || (loadingPage2$ | async); else data">
+  <p>Loading...</p>
+</div>
+
+<ng-template #data>
+  <div *ngIf="(errorPage1$ | async) || (errorPage2$ | async); else peopleData">
+    <p>Error loading data</p>
+  </div>
+
+  <ng-template #peopleData>
+    <div *ngIf="(people$ | async) as people">
+      <h2>People</h2>
+      <button class="button btn" [routerLink]="['/planets']">Go to Planets</button>
+      <table>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Gender</th>
+          <th>Birth Year</th>
+        </tr>
+        <tr *ngFor="let person of people; let i = index">
+          <td>{{i+1}}</td>
+          <td> {{ person.name }}</td>
+          <td>{{ person.gender != 'n/a' ? person.gender : 'Unknown'}}</td>
+          <td>{{ person.birthYear != 'unknown' ? person.birthYear : 'Unknown'}}</td>
+        </tr>
+      </table>
+    </div>
+  </ng-template>
+</ng-template>
