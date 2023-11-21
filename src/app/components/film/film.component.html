@@ -1,0 +1,25 @@
+<div *ngIf="loading$ | async; else content">
+    Loading...
+  </div>
+  <ng-template #content>
+    <div *ngIf="error$ | async; else data">
+      Error: {{ error$ | async }}
+    </div>
+    <ng-template #data>
+      <h2>Planets</h2>
+        <button class="button btn" [routerLink]="['/people']">Go to People</button>
+        <table>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Release Date</th>
+          </tr>
+          <tr *ngFor="let film of film$ | async; let i=index" >
+            <td>{{i+1}}</td>
+            <td> {{ film.title }}</td>
+            <td>{{film.release_date | date:'medium'}}</td>
+          </tr>
+        </table>
+        <hr />
+    </ng-template>
+  </ng-template>

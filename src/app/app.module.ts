@@ -5,7 +5,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
-import {peopleReducer} from "./state/people/people.reducer";
 import {PeopleService} from "./services/people/people.service";
 import {PeopleEffects} from "./state/people/people.effects";
 import { PeopleComponent } from './components/people/people.component';
@@ -15,12 +14,16 @@ import { PlanetComponent } from './components/planet/planet.component';
 import { PlanetService } from './services/planet/planet.service';
 import { PlanetEffects } from './state/planet/planet.effects';
 import { reducers } from './state/app.state';
+import { FilmComponent } from './components/film/film.component';
+import { FilmService } from './services/film/film.service';
+import { FilmEffects } from './state/film/film.effects';
 
 @NgModule({
   declarations: [
     AppComponent,
     PeopleComponent,
-    PlanetComponent
+    PlanetComponent,
+    FilmComponent
   ],
   imports: [
     CommonModule,
@@ -28,9 +31,9 @@ import { reducers } from './state/app.state';
     BrowserModule,
     AppRoutingModule,
     StoreModule.forRoot(reducers),
-    EffectsModule.forRoot([PeopleEffects, PlanetEffects]),
+    EffectsModule.forRoot([PeopleEffects, PlanetEffects, FilmEffects]),
   ],
-  providers: [PeopleService, PlanetService],
+  providers: [PeopleService, PlanetService,FilmService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

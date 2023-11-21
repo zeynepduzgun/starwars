@@ -7,7 +7,7 @@ import { PlanetService } from '../../services/planet/planet.service';
 
 @Injectable()
 export class PlanetEffects {
-  loadPeople$ = createEffect(() =>
+  loadPPlanet$ = createEffect(() =>
   this.actions$.pipe(
     ofType(PlanetActions.loadPlanet),
     switchMap(() =>
