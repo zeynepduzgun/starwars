@@ -1,5 +1,3 @@
-// film.model.ts
-
 export interface Film {
     title: string;
     episode_id: number;

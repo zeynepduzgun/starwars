@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {Observable, combineLatest, map, of, switchMap} from "rxjs";
+import {Observable, combineLatest, filter, map, of, switchMap} from "rxjs";
 import {Store} from "@ngrx/store";
 import {selectPeople, selectPeopleError, selectPeopleLoading} from "../../state/people/people.selectors";
 import * as peopleActions from "../../state/people/people.actions";
@@ -17,12 +17,15 @@ export class PeopleComponent {
   errorPage2$: Observable<any>;
 
   constructor(private store: Store) {
+    // Combine observables for people data from page 1 and page 2
     this.people$ = combineLatest([
       this.store.select(selectPeople(1)),
       this.store.select(selectPeople(2)),
     ]).pipe(
       map(([peoplePage1, peoplePage2]) => [...peoplePage1, ...peoplePage2])
     );
+
+    // Select loading and error states for each page
     this.loadingPage1$ = this.store.select(selectPeopleLoading(1));
     this.loadingPage2$ = this.store.select(selectPeopleLoading(2));
     this.errorPage1$ = this.store.select(selectPeopleError(1));
@@ -36,11 +39,10 @@ export class PeopleComponent {
     // Wait for page 1 to be loaded, then dispatch action for page 2
     this.loadingPage1$
       .pipe(
-        switchMap((loadingPage1) => {
-          if (!loadingPage1) {
-            // Dispatch action to load people for page 2
-            this.store.dispatch(peopleActions.loadPeople({ page: 2 }));
-          }
+        filter((loadingPage1: any) => !loadingPage1),
+        switchMap(() => {
+          // Dispatch action to load people for page 2
+          this.store.dispatch(peopleActions.loadPeople({ page: 2 }));
           // Return an observable that completes immediately
           return of(null);
         })
