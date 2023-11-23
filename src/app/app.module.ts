@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +17,7 @@ import { reducers } from './state/app.state';
 import { FilmComponent } from './components/film/film.component';
 import { FilmService } from './services/film/film.service';
 import { FilmEffects } from './state/film/film.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { FilmEffects } from './state/film/film.effects';
     AppRoutingModule,
     StoreModule.forRoot(reducers),
     EffectsModule.forRoot([PeopleEffects, PlanetEffects, FilmEffects]),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
   ],
   providers: [PeopleService, PlanetService,FilmService],
   bootstrap: [AppComponent]
